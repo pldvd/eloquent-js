@@ -17,12 +17,10 @@ function isEven(n) {
     if (n === -1) return false;
     else return isEven(n + 2);
   }
-  if (n === 0) {
-    return true;
-  }
+  if (n === 0) return true;
 }
 
-console.log(isEven(-50));
+console.log(isEven(-7));
 
 //count beans - write a function that takes a string argument and returns the number of uppercase Bs in it
 
@@ -35,6 +33,8 @@ function countBs(word) {
 }
 
 console.log(countBs('BBC'));
+
+//count characters -  write a function that takes two string arguments: a word and a letter and counts the given letter's occurences in the given word
 
 function countChar(word, char) {
   let count = 0;
