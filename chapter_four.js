@@ -78,3 +78,7 @@ function listToArrayWithWhile(list) {
   }
   return array;
 }
+
+function prepend(element, list) {
+  return {value: element, rest: list};
+}
