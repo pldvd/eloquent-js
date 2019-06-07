@@ -82,3 +82,17 @@ function listToArrayWithWhile(list) {
 function prepend(element, list) {
   return {value: element, rest: list};
 }
+
+function nth(list, number) {
+  let array = [];
+  for (let node = list; node != null; node = node.rest) {
+    array.push(node.value);
+  }
+  return array[number];
+}
+
+function recursiveNth(list, number) {
+  if (!list) return undefined;
+  else if (number == 0) return list.value;
+  else return recursiveNth(list.rest, number - 1)
+}
