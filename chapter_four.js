@@ -14,7 +14,7 @@ function rangeWithStep(start, end, step) {
     for (let i = start; i <= end; i += step) {
       range.push(i);
     }
-  } else if (start > end) {    
+  } else if (start > end) {
     for (let i = start; i >= end; i += step) {
       range.push(i);
     }
@@ -39,11 +39,21 @@ function reverseArray(array) {
 }
 
 function reverseArrayInPlace(array) {
-const arrayHalf = Math.floor(array.length/2);
-for (let i = 0; i < arrayHalf; i++) {
-  let old = array[i];
-  array[i] = array[array.length - 1 - i];
-  array[array.length - 1 - i] = old;
+  const arrayHalf = Math.floor(array.length / 2);
+  for (let i = 0; i < arrayHalf; i++) {
+    let old = array[i];
+    array[i] = array[array.length - 1 - i];
+    array[array.length - 1 - i] = old;
+  }
+  return array;
 }
-return array;
+
+//a list
+
+function arrayToList(arr) {
+  let list = null;
+  for (let i = arr.length - 1; i >= 0; i--) {
+    list = {value: arr[i], rest: list}
+  }
+  return list;
 }
