@@ -101,9 +101,9 @@ function deepEqual(a, b) {
   if (a === b) return true;
   else if (typeof a == 'object' && a != null && typeof b == 'object' && b != null) {
     if (Object.keys(a).length == Object.keys(b).length) {
-      for (prop in a) {
-        if (Object.keys(b).includes(prop)) {
-          return deepEqual(b[prop], a[prop])
+      for (property in a) {
+        if (Object.keys(b).includes(property)) {
+          return deepEqual(b[property], a[property]);
         };
       }
     }
