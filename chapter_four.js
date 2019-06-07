@@ -72,7 +72,7 @@ function listToArrayWithWhile(list) {
   let node = list;
   let array = [];
 
-  while(node) {
+  while (node) {
     array.push(node.value);
     node = node.rest;
   }
@@ -80,7 +80,7 @@ function listToArrayWithWhile(list) {
 }
 
 function prepend(element, list) {
-  return {value: element, rest: list};
+  return { value: element, rest: list };
 }
 
 function nth(list, number) {
@@ -95,4 +95,19 @@ function recursiveNth(list, number) {
   if (!list) return undefined;
   else if (number == 0) return list.value;
   else return recursiveNth(list.rest, number - 1)
+}
+
+function deepEqual(a, b) {
+  if (a === b) return true;
+  else if (typeof a == 'object' && a != null && typeof b == 'object' && b != null) {
+    if (Object.keys(a).length == Object.keys(b).length) {
+      for (prop in a) {
+        if (Object.keys(b).includes(prop)) {
+          return deepEqual(b[prop], a[prop])
+        };
+      }
+    }
+    else return false;
+  }
+  else return false;
 }
