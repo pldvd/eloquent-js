@@ -53,7 +53,28 @@ function reverseArrayInPlace(array) {
 function arrayToList(arr) {
   let list = null;
   for (let i = arr.length - 1; i >= 0; i--) {
-    list = {value: arr[i], rest: list}
+    list = { value: arr[i], rest: list }
   }
   return list;
+}
+
+function listToArray(list) {
+  let array = [];
+  for (let node = list; node != null; node = node.rest) {
+    array.push(node.value);
+  }
+  return array;
+}
+
+//Since the first solution's for loop comes from the clues section of the chapter, I was trying to come up with an other solution which I am more comfortable with personally...this is it with a while loop
+
+function listToArrayWithWhile(list) {
+  let node = list;
+  let array = [];
+
+  while(node) {
+    array.push(node.value);
+    node = node.rest;
+  }
+  return array;
 }
