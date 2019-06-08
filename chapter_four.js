@@ -97,6 +97,8 @@ function recursiveNth(list, number) {
   else return recursiveNth(list.rest, number - 1)
 }
 
+//deep equal
+
 function deepEqual(a, b) {
   if (a === b) return true;
   else if (typeof a == 'object' && a != null && typeof b == 'object' && b != null) {
@@ -111,3 +113,4 @@ function deepEqual(a, b) {
   }
   else return false;
 }
+
