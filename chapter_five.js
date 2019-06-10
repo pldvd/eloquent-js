@@ -18,3 +18,21 @@ function loop(value, testFunc, updateFunc, bodyFunc) {
 }
 
 loop(3, n => n > 0, n => n - 1, console.log);
+
+//everything - write two functions which act like array.prototype.every(), one with a loop and one using array.prototype.some()
+
+function every(array, test) {
+  let count = 0;
+  for (item of array) {
+    if (test(item)) count++;
+  }
+  return count == array.length;
+}
+
+console.log(every([1, 3, 5], n => n < 10));
+
+function everyWithSome(array, test) {
+  return !array.some(item => !test(item));
+}
+
+console.log(everyWithSome([2, 4, 16], n => n < 10));
