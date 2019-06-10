@@ -1,12 +1,12 @@
 //higher order functions
 
-//flattening
+//flattening - flatten the arrays within the array into one
 
 let arrays = [[1, 2, 3], [4, 5], [6]];
 
 console.log(arrays.reduce((a, b) => a.concat(b)));
 
-//your own loop
+//your own loop - without an actual for loop, using recursion
 
 function loop(value, testFunc, updateFunc, bodyFunc) {
   if (testFunc(value)) {
