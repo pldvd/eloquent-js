@@ -1,5 +1,7 @@
 //higher order functions
 
+let SCRIPTS = require('./chapter_five_scripts')
+
 //flattening - flatten the arrays within the array into one
 
 let arrays = [[1, 2, 3], [4, 5], [6]];
@@ -36,3 +38,44 @@ function everyWithSome(array, test) {
 }
 
 console.log(everyWithSome([2, 4, 16], n => n < 10));
+
+//dominant writing direction --- characterscript and countBy functions taken from the book
+
+function characterScript(code) {
+  for (let script of SCRIPTS) {
+    if (script.ranges.some(([from, to]) => {
+      return code >= from && code < to;
+    })) {
+      return script;
+    }
+  }
+  return null;
+}
+
+function countBy(items, groupName) {
+  let counts = [];
+  for (let item of items) {
+    let name = groupName(item);
+    let known = counts.findIndex(c => c.name == name);
+    if (known == -1) {
+      counts.push({name, count: 1});
+    } else {
+      counts[known].count++;
+    }
+  }
+  return counts;
+}
+
+function dominantDirection(text) {
+
+  let grouping = countBy(text, character => {
+    let script = characterScript(character.codePointAt(0));
+    return script ? script.direction : 'none';
+  })
+
+  return grouping;
+
+}
+
+
+console.log(dominantDirection("Hello!"));
