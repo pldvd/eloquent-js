@@ -39,7 +39,7 @@ function everyWithSome(array, test) {
 
 console.log(everyWithSome([2, 4, 16], n => n < 10));
 
-//dominant writing direction --- characterscript and countBy functions taken from the book
+//dominant writing direction --- characterScript and countBy functions taken from the book
 
 function characterScript(code) {
   for (let script of SCRIPTS) {
@@ -58,7 +58,7 @@ function countBy(items, groupName) {
     let name = groupName(item);
     let known = counts.findIndex(c => c.name == name);
     if (known == -1) {
-      counts.push({name, count: 1});
+      counts.push({ name, count: 1 });
     } else {
       counts[known].count++;
     }
@@ -73,9 +73,8 @@ function dominantDirection(text) {
     return script ? script.direction : 'none';
   })
 
-  return grouping;
-
+  return grouping.reduce((a, b) => a.count > b.count ? a.name : b.name);
 }
 
-
 console.log(dominantDirection("Hello!"));
+console.log(dominantDirection("Hey, مساء الخير"));
