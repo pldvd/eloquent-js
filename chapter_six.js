@@ -59,7 +59,7 @@ console.log(group.has(10));
 
 //iterable groups
 
-class groupIterator {
+class GroupIterator {
   constructor(groupMembers) {
     this.currentValue = 0;
     this.arr = groupMembers;
@@ -73,7 +73,7 @@ class groupIterator {
 }
 
 Group.prototype[Symbol.iterator] = function () {
-  return new groupIterator(this.members);
+  return new GroupIterator(this.members);
 }
 
 for (let value of Group.from(["a", "b", "c"])) {
