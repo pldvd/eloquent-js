@@ -79,3 +79,11 @@ Group.prototype[Symbol.iterator] = function () {
 for (let value of Group.from(["a", "b", "c"])) {
   console.log(value);
 }
+
+//borrowing a method
+
+let hasOwnProperty = Symbol('hasOwnProperty');
+let map = {one: true, two: true, [hasOwnProperty]: true};
+
+console.log(map.hasOwnProperty("one"));
+// → true
