@@ -1,1 +1,2 @@
-// the secret life of objects
+// a vector type
+
