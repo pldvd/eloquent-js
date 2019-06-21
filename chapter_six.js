@@ -56,3 +56,26 @@ group.add(10);
 group.delete(10);
 console.log(group.has(10));
 // → false
+
+//iterable groups
+
+class groupIterator {
+  constructor(groupMembers) {
+    this.currentValue = 0;
+    this.arr = groupMembers;
+  }
+  next() {
+    if (this.currentValue == this.arr.length) return { done: true };
+    let value = this.arr[this.currentValue];
+    this.currentValue++;
+    return {value, done: false}
+  }
+}
+
+Group.prototype[Symbol.iterator] = function () {
+  return new groupIterator(this.members);
+}
+
+for (let value of Group.from(["a", "b", "c"])) {
+  console.log(value);
+}
