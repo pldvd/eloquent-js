@@ -43,7 +43,7 @@ class Group {
     return this.members.includes(el);
   }
   delete(el) {
-    this.members = this.members.filter((i) => i != el);
+    this.members = this.members.filter((i) => i !== el);
   }
 }
 
@@ -82,8 +82,7 @@ for (let value of Group.from(["a", "b", "c"])) {
 
 //borrowing a method
 
-let hasOwnProperty = Symbol('hasOwnProperty');
-let map = {one: true, two: true, [hasOwnProperty]: true};
+let map = {one: true, two: true, hasOwnProperty : true};
 
-console.log(map.hasOwnProperty("one"));
+console.log(Object.prototype.hasOwnProperty.call(map, 'one'));
 // → true
