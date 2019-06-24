@@ -28,4 +28,28 @@ function buildGraph(from, to) {
 }
 
 const roadGraph = buildGraph(roads);
-console.log(roadGraph);
+
+class VillageState {
+  constructor(currentPlace, parcels) {
+    this.currentPlace = currentPlace;
+    this.parcels = parcels;
+  }
+
+  move(destination) {
+    if (this.currentPlace.includes(destination)) {
+       return this;
+      } else {
+        let parcels = this.parcels.map(p => {
+          if (p.place != this.currentPlace) return p;
+          return {place: destination, addressTo: p.addressTo};
+        }).filter(p => p.place != p.addressTo);
+        return new VillageState(destination, parcels);
+      }
+  }
+}
+
+const first = new VillageState('Post Office', [{place: 'Post Office', addressTo: 'Alice\'s House'}])
+
+let next = first.move('Alice\'s House');
+
+console.log(next.parcels, next.currentPlace);
