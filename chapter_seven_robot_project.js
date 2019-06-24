@@ -37,19 +37,26 @@ class VillageState {
 
   move(destination) {
     if (this.currentPlace.includes(destination)) {
-       return this;
-      } else {
-        let parcels = this.parcels.map(p => {
-          if (p.place != this.currentPlace) return p;
-          return {place: destination, addressTo: p.addressTo};
-        }).filter(p => p.place != p.addressTo);
-        return new VillageState(destination, parcels);
-      }
+      return this;
+    } else {
+      let parcels = this.parcels.map(p => {
+        if (p.place != this.currentPlace) return p;
+        return { place: destination, addressTo: p.addressTo };
+      }).filter(p => p.place != p.addressTo);
+      return new VillageState(destination, parcels);
+    }
   }
 }
 
-const first = new VillageState('Post Office', [{place: 'Post Office', addressTo: 'Alice\'s House'}])
-
-let next = first.move('Alice\'s House');
-
-console.log(next.parcels, next.currentPlace);
+function runRobot(state, robot, memory) {
+  for (let turn = 0; ;turn++) {
+    if (state.parcels.length == 0) {
+      console.log(`Finished in ${turn} turns.`);
+      break;
+    }
+    let action = robot(state, memory);
+    state = state.move(action.direction);
+    memory = action.memory;
+    console.log(`Moved to ${action.direction}`)
+  }
+}
