@@ -29,7 +29,7 @@ function buildGraph(from, to) {
 
 const roadGraph = buildGraph(roads);
 
-class VillageState {
+class deliveryState {
   constructor(currentPlace, parcels) {
     this.currentPlace = currentPlace;
     this.parcels = parcels;
@@ -43,7 +43,7 @@ class VillageState {
         if (p.place != this.currentPlace) return p;
         return { place: destination, addressTo: p.addressTo };
       }).filter(p => p.place != p.addressTo);
-      return new VillageState(destination, parcels);
+      return new deliveryState(destination, parcels);
     }
   }
 }
