@@ -79,8 +79,6 @@ DeliveryState.random = function (parcelCount = 5) {
   return new DeliveryState('Post Office', parcels);
 }
 
-// runRobot(DeliveryState.random(), randomRobot);
-
 function findRoute(graph, from, to) {
   let work = [{at: from, route: []}];
   for (let i = 0; i < work.length; i++) {
@@ -94,13 +92,13 @@ function findRoute(graph, from, to) {
   }
 }
 
-function goalOrientedRobot({place, parcels}, route) {
+function goalOrientedRobot({currentPlace, parcels}, route) {
   if (route.length == 0) {
     let parcel = parcels[0];
-    if (parcel.location != place) {
-      route = findRoute(roadGraph, place, parcel.location);
+    if (parcel.location != currentPlace) {
+      route = findRoute(roadGraph, currentPlace, parcel.location);
     } else {
-      route = findRoute(roadGraph, place, parcel.addressTo);
+      route = findRoute(roadGraph, currentPlace, parcel.addressTo);
     }
   }
   return {direction: route[0], memory: route.slice(1)};
