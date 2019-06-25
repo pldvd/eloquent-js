@@ -29,21 +29,21 @@ function buildGraph(from, to) {
 
 const roadGraph = buildGraph(roads);
 
-class deliveryState {
+class DeliveryState {
   constructor(currentPlace, parcels) {
     this.currentPlace = currentPlace;
     this.parcels = parcels;
   }
 
   move(destination) {
-    if (this.currentPlace.includes(destination)) {
+    if (!roadGraph[this.currentPlace].includes(destination)) {
       return this;
     } else {
       let parcels = this.parcels.map(p => {
-        if (p.place != this.currentPlace) return p;
-        return { place: destination, addressTo: p.addressTo };
-      }).filter(p => p.place != p.addressTo);
-      return new deliveryState(destination, parcels);
+        if (p.location != this.currentPlace) return p;
+        return { location: destination, addressTo: p.addressTo };
+      }).filter(p => p.location != p.addressTo);
+      return new DeliveryState(destination, parcels);
     }
   }
 }
