@@ -80,19 +80,19 @@ DeliveryState.random = function (parcelCount = 5) {
 }
 
 function findRoute(graph, from, to) {
-  let work = [{at: from, route: []}];
+  let work = [{ at: from, route: [] }];
   for (let i = 0; i < work.length; i++) {
-    let {at, route} = work[i];
+    let { at, route } = work[i];
     for (let place of graph[at]) {
       if (place == to) return route.concat(place);
       if (!work.some(w => w.at == place)) {
-        work.push({at: place, route: route.concat(place)});
+        work.push({ at: place, route: route.concat(place) });
       }
     }
   }
 }
 
-function goalOrientedRobot({currentPlace, parcels}, route) {
+function goalOrientedRobot({ currentPlace, parcels }, route) {
   if (route.length == 0) {
     let parcel = parcels[0];
     if (parcel.location != currentPlace) {
@@ -101,16 +101,35 @@ function goalOrientedRobot({currentPlace, parcels}, route) {
       route = findRoute(roadGraph, currentPlace, parcel.addressTo);
     }
   }
-  return {direction: route[0], memory: route.slice(1)};
+  return { direction: route[0], memory: route.slice(1) };
 }
 
-runRobot(DeliveryState.random(), goalOrientedRobot, []);
-
+// runRobot(DeliveryState.random(), goalOrientedRobot, []);
 
 // measuring a robot
 
-function compareRobots(robot1, memory1, robot2, memory2) {
-  
+function randomRobot(state) {
+  return { direction: randomPick(roadGraph[state.currentPlace]) };
 }
 
-compareRobots(routeRobot, [], goalOrientedRobot, []);
+function checkRobotPerf(state, robot, memory) {
+  for (let turn = 0; ; turn++) {
+    if (state.parcels.length == 0) {
+      return turn;
+    }
+    let action = robot(state, memory);
+    state = state.move(action.direction);
+    memory = action.memory;
+  }
+}
+
+function compareRobots(robot1, memory1, robot2, memory2) {
+  const taskList = DeliveryState.random(20);
+  const robot1Perf = checkRobotPerf(taskList, robot1, memory1) / taskList.parcels.length;
+  const robot2Perf = checkRobotPerf(taskList, robot2, memory2) / taskList.parcels.length;
+  const winner = robot1Perf < robot2Perf ? 'R1' : 'R2';
+
+  console.log(`The average performance of R1 is ${robot1Perf}, the average performance of R2 is ${robot2Perf}, the winner is ${winner}`);
+}
+
+compareRobots(goalOrientedRobot, [], randomRobot, []);
