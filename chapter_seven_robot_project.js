@@ -138,17 +138,16 @@ function myRobot({ currentPlace, parcels }, route) {
 
   if (route.length == 0) {
 
-    let closestParcel = () => {
-      return parcels.map(parcel => {
+    let closestParcel = parcels.map(parcel => {
         parcel.closestRoute = findRoute(roadGraph, currentPlace, parcel.location);
         return parcel;
       }).reduce((a, b) => a.closestRoute.length < b.closestRoute.length ? a : b);
-    };
+    
 
-    if (closestParcel().location != currentPlace) {
-      route = findRoute(roadGraph, currentPlace, closestParcel().location);
+    if (closestParcel.location != currentPlace) {
+      route = findRoute(roadGraph, currentPlace, closestParcel.location);
     } else {
-      route = findRoute(roadGraph, currentPlace, closestParcel().addressTo);
+      route = findRoute(roadGraph, currentPlace, closestParcel.addressTo);
     }
   }
   return { direction: route[0], memory: route.slice(1) };
