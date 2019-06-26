@@ -104,7 +104,7 @@ function goalOrientedRobot({ currentPlace, parcels }, route) {
   return { direction: route[0], memory: route.slice(1) };
 }
 
-// runRobot(DeliveryState.random(), goalOrientedRobot, []);
+runRobot(DeliveryState.random(), goalOrientedRobot, []);
 
 // measuring a robot
 
@@ -124,7 +124,7 @@ function checkRobotPerf(state, robot, memory) {
 }
 
 function compareRobots(robot1, memory1, robot2, memory2) {
-  const taskList = DeliveryState.random();
+  const taskList = DeliveryState.random(30);
   const robot1Perf = checkRobotPerf(taskList, robot1, memory1);
   const robot2Perf = checkRobotPerf(taskList, robot2, memory2);
   const winner = robot1Perf < robot2Perf ? 'R1' : 'R2';
@@ -138,19 +138,16 @@ function myRobot({ currentPlace, parcels }, route) {
 
   if (route.length == 0) {
 
-    let closestParcel = parcels.map(parcel => {
-        parcel.closestRoute = findRoute(roadGraph, currentPlace, parcel.location);
-        return parcel;
-      }).reduce((a, b) => a.closestRoute.length < b.closestRoute.length ? a : b);
-    
-
-    if (closestParcel.location != currentPlace) {
-      route = findRoute(roadGraph, currentPlace, closestParcel.location);
-    } else {
-      route = findRoute(roadGraph, currentPlace, closestParcel.addressTo);
-    }
+    route = parcels.map(parcel => {
+      if (parcel.location != currentPlace) {
+        return findRoute(roadGraph, currentPlace, parcel.location);
+      } else {
+        return findRoute(roadGraph, currentPlace, parcel.addressTo);
+      }
+    }).reduce((a, b) => a.length < b.length ? a : b);
   }
+  
   return { direction: route[0], memory: route.slice(1) };
 }
 
-runRobot(DeliveryState.random(), myRobot, []);
+compareRobots(myRobot, [], goalOrientedRobot, []);
