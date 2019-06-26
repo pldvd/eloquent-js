@@ -66,7 +66,7 @@ function randomPick(array) {
   return array[choice];
 }
 
-DeliveryState.random = function (parcelCount = 5) {
+DeliveryState.random = function (parcelCount = 2) {
   let parcels = [];
   for (let i = 0; i < parcelCount; i++) {
     let addressTo = randomPick(Object.keys(roadGraph));
@@ -124,8 +124,7 @@ function checkRobotPerf(state, robot, memory) {
 }
 
 function compareRobots(robot1, memory1, robot2, memory2) {
-  const taskList = DeliveryState.random(200);
-  const numberOfTasks = taskList.parcels.length;
+  const taskList = DeliveryState.random();
   const robot1Perf = checkRobotPerf(taskList, robot1, memory1);
   const robot2Perf = checkRobotPerf(taskList, robot2, memory2);
   const winner = robot1Perf < robot2Perf ? 'R1' : 'R2';
@@ -136,30 +135,23 @@ function compareRobots(robot1, memory1, robot2, memory2) {
 // robot efficiency
 
 function myRobot({ currentPlace, parcels }, route) {
+
   if (route.length == 0) {
 
-    let parcel = (function () {
-      let allParcelsPickUp = [];
-      for (let parcel of parcels) {
-        allParcelsPickUp.push(findRoute(roadGraph, currentPlace, parcel.location));
-      }
-      let shortestRoute = allParcelsPickUp.reduce((a, b) => a.length < b.length ? a : b);
+    let closestParcel = () => {
+      return parcels.map(parcel => {
+        parcel.closestRoute = findRoute(roadGraph, currentPlace, parcel.location);
+        return parcel;
+      }).reduce((a, b) => a.closestRoute.length < b.closestRoute.length ? a : b);
+    };
 
-      let closestPickUp = shortestRoute[shortestRoute.length - 1];
-
-      let nextOne = parcels.filter(parcel => parcel.location == closestPickUp);
-      return nextOne[0];
-    })();
-
-    if (parcel.location != currentPlace) {
-      route = findRoute(roadGraph, currentPlace, parcel.location);
+    if (closestParcel().location != currentPlace) {
+      route = findRoute(roadGraph, currentPlace, closestParcel().location);
     } else {
-      route = findRoute(roadGraph, currentPlace, parcel.addressTo);
+      route = findRoute(roadGraph, currentPlace, closestParcel().addressTo);
     }
   }
   return { direction: route[0], memory: route.slice(1) };
 }
 
-// console.log(DeliveryState.random(20))
-// runRobot(DeliveryState.random(), myRobot, []);
-compareRobots(goalOrientedRobot, [], myRobot, []);
+runRobot(DeliveryState.random(), myRobot, []);
