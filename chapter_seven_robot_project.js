@@ -57,7 +57,7 @@ function runRobot(state, robot, memory) {
     let action = robot(state, memory);
     state = state.move(action.direction);
     memory = action.memory;
-    console.log(`Moved to ${action.direction}`)
+    console.log(`Moved to ${action.direction}`);
   }
 }
 
@@ -124,12 +124,42 @@ function checkRobotPerf(state, robot, memory) {
 }
 
 function compareRobots(robot1, memory1, robot2, memory2) {
-  const taskList = DeliveryState.random(20);
-  const robot1Perf = checkRobotPerf(taskList, robot1, memory1) / taskList.parcels.length;
-  const robot2Perf = checkRobotPerf(taskList, robot2, memory2) / taskList.parcels.length;
+  const taskList = DeliveryState.random(200);
+  const numberOfTasks = taskList.parcels.length;
+  const robot1Perf = checkRobotPerf(taskList, robot1, memory1);
+  const robot2Perf = checkRobotPerf(taskList, robot2, memory2);
   const winner = robot1Perf < robot2Perf ? 'R1' : 'R2';
 
-  console.log(`The average performance of R1 is ${robot1Perf}, the average performance of R2 is ${robot2Perf}, the winner is ${winner}`);
+  console.log(`The performance of R1 is ${robot1Perf} steps, the performance of R2 is ${robot2Perf} steps, the winner is ${winner}`);
 }
 
-compareRobots(goalOrientedRobot, [], randomRobot, []);
+// robot efficiency
+
+function myRobot({ currentPlace, parcels }, route) {
+  if (route.length == 0) {
+
+    let parcel = (function () {
+      let allParcelsPickUp = [];
+      for (let parcel of parcels) {
+        allParcelsPickUp.push(findRoute(roadGraph, currentPlace, parcel.location));
+      }
+      let shortestRoute = allParcelsPickUp.reduce((a, b) => a.length < b.length ? a : b);
+
+      let closestPickUp = shortestRoute[shortestRoute.length - 1];
+
+      let nextOne = parcels.filter(parcel => parcel.location == closestPickUp);
+      return nextOne[0];
+    })();
+
+    if (parcel.location != currentPlace) {
+      route = findRoute(roadGraph, currentPlace, parcel.location);
+    } else {
+      route = findRoute(roadGraph, currentPlace, parcel.addressTo);
+    }
+  }
+  return { direction: route[0], memory: route.slice(1) };
+}
+
+// console.log(DeliveryState.random(20))
+// runRobot(DeliveryState.random(), myRobot, []);
+compareRobots(goalOrientedRobot, [], myRobot, []);
