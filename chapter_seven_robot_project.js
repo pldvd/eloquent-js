@@ -151,3 +151,38 @@ function myRobot({ currentPlace, parcels }, route) {
 }
 
 compareRobots(myRobot, [], goalOrientedRobot, []);
+
+
+// persistent group
+
+class PGroup {
+  // Your code here
+  constructor(array) {
+    this.members = array || [];
+  }
+
+  add(element) { 
+    return new PGroup(this.members.concat(element));
+  }
+
+  delete(element) {
+    return new PGroup(this.members.filter(item => item !== element))
+  }
+
+  has(element) {
+    return this.members.includes(element);
+  }
+}
+
+PGroup.empty = new PGroup();
+
+let a = PGroup.empty.add("a");
+let ab = a.add("b");
+let b = ab.delete("a");
+
+console.log(b.has("b"));
+// → true
+console.log(a.has("b"));
+// → false
+console.log(b.has("a"));
+// → false
