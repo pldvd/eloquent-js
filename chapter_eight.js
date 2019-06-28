@@ -1,5 +1,7 @@
 //bugs and errors
 
+//retry
+
 class MultiplicatorUnitFailure extends Error { }
 
 function primitiveMultiply(a, b) {
@@ -16,7 +18,9 @@ function reliableMultiply(a, b) {
   } catch (e) {
     if (e instanceof MultiplicatorUnitFailure) {
       return reliableMultiply(a, b);
-    };
+    } else {
+      throw e;
+    }
   }
 }
 
