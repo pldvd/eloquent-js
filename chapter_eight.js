@@ -46,7 +46,7 @@ function withBoxUnlocked(body) {
     if (box.locked) {
       box.unlock();
     }
-    body();
+    return body();
   } catch (e) {
     return e.message;
   } finally {
