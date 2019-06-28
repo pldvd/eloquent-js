@@ -46,7 +46,7 @@ function withBoxUnlocked(body) {
     if (box.locked) {
       box.unlock();
     }
-    body();
+    return body();
   } catch (e) {
     return e.message;
   } finally {
@@ -65,7 +65,6 @@ try {
 } catch (e) {
   console.log("Error raised: " + e);
 }
-
 
 console.log(box.locked);
 // → true
