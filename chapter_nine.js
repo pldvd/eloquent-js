@@ -16,16 +16,19 @@ const ferrThing = /ferr(et|y|ari)/;
 
 // any word ending to -ious
 
-const ious = /\w+ious\b/;
+const ious = /ious\b/;
 
 // a whitespace character followed by . OR , OR - OR ;
 
-const escapeChars = /\s(\.|\,|\-|\;)/;
+const escapeChars = /\s[.,-;]/;
 
 // a word longer than six characters
 
 const longWord = /\w{7,}\b/;
 
+// no word with e
+
+const noE = /\b[^\We]+\b/i;
 
 
 
