@@ -3,32 +3,26 @@
 //regexp golf 
 
 // car and cat
-
 const carThing = /ca[rt]/;
 
 // pop and prop
-
 const propThing = /pr?op/;
 
 // ferret, ferry, ferrari
-
 const ferrThing = /ferr(et|y|ari)/;
 
 // any word ending to -ious
-
 const ious = /ious\b/;
 
 // a whitespace character followed by . OR , OR - OR ;
-
 const escapeChars = /\s[.,-;]/;
 
 // a word longer than six characters
-
 const longWord = /\w{7,}\b/;
 
 // no word with e
-
 const noE = /\b[^\We]+\b/ig;
 
-
-
+// quoting style
+let text = "'I'm the cook,' he said, 'it's my job.'";
+console.log(text.replace(/(^|\W)'|'(\W|$)/g, '$1"$2'));
