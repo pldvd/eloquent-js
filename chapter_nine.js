@@ -4,14 +4,29 @@
 
 // car and cat
 
-const ca = /ca[rt]/;
+const carThing = /ca[rt]/;
 
 // pop and prop
 
-const prop = /pr?op/;
+const propThing = /pr?op/;
 
 // ferret, ferry, ferrari
 
-const ferr = /ferr(et|y|ari)/;
+const ferrThing = /ferr(et|y|ari)/;
+
+// any word ending to -ious
+
+const ious = /\w+ious\b/;
+
+// a whitespace character followed by . OR , OR - OR ;
+
+const escapeChars = /\s(\.|\,|\-|\;)/;
+
+// a word longer than six characters
+
+const longWord = /\w{7,}\b/;
+
+
+
 
 
