@@ -28,8 +28,7 @@ const longWord = /\w{7,}\b/;
 
 // no word with e
 
-const noE = /\b[^\We]+\b/i;
-
+const noE = /\b[^\We]+\b/ig;
 
 
 
