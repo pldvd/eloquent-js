@@ -26,3 +26,21 @@ const noE = /\b[^\We]+\b/ig;
 // quoting style
 let text = "'I'm the cook,' he said, 'it's my job.'";
 console.log(text.replace(/(^|\W)'|'(\W|$)/g, '$1"$2'));
+
+//numbers again - write a regexp which matches all JS-style numbers
+
+let number = /^[+-]?((\.\d+\b)$|(\d+\.?\d*)(([eE][+-]?)?\d+)?$)/;
+
+// Tests - from the book:
+for (let str of ["1", "-1", "+15", "1.55", ".5", "5.",
+                 "1.3e2", "1E-4", "1e+12"]) {
+  if (!number.test(str)) {
+    console.log(`Failed to match '${str}'`);
+  }
+}
+for (let str of ["1a", "+-1", "1.2.3", "1+1", "1e4.5",
+                 ".5.", "1f5", "."]) {
+  if (number.test(str)) {
+    console.log(`Incorrectly accepted '${str}'`);
+  }
+}
