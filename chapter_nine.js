@@ -29,7 +29,7 @@ console.log(text.replace(/(^|\W)'|'(\W|$)/g, '$1"$2'));
 
 //numbers again - write a regexp which matches all JS-style numbers
 
-let number = /^[+-]?((\.\d+\b)$|(\d+\.?\d*)(([eE][+-]?)?\d+)?$)/;
+let number = /^[+-]?((\.\d+)$|(\d+\.?\d*)(([eE][+-]?)?\d+)?$)/;
 
 // Tests - from the book:
 for (let str of ["1", "-1", "+15", "1.55", ".5", "5.",
