@@ -11,7 +11,7 @@ const roads = [
   "Marketplace-Town Hall", "Shop-Town Hall"
 ];
 
-function buildGraph(from, to) {
+const buildGraph = function(from, to) {
   let graph = Object.create(null);
   function addEdge(from, to) {
     if (!graph[from]) {
@@ -186,3 +186,5 @@ console.log(a.has("b"));
 // → false
 console.log(b.has("a"));
 // → false
+
+module.exports = buildGraph;
