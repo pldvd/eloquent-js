@@ -17,3 +17,14 @@ console.log(it.next());
 console.log(it.next());
 console.log(it.next());
 console.log(it.next());
+
+//tracking the scalpel
+
+async function locateScalpel(nest) {
+  let current = nest.name;
+  while(true) {
+    let next = await anyStorage(nest, current, "scalpel");
+    if (next == current) return current;
+    current = next;
+  }
+}
