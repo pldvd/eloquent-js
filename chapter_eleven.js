@@ -22,7 +22,7 @@ console.log(it.next());
 
 async function locateScalpel(nest) {
   let current = nest.name;
-  while(true) {
+  while(nest) {
     let next = await anyStorage(nest, current, "scalpel");
     if (next == current) return current;
     current = next;
