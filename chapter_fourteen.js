@@ -50,3 +50,28 @@ function generateMountainTable(mountains) {
 }
 
 generateMountainTable(MOUNTAINS);
+
+
+//own implemnetation of getElementsByTagName
+
+function byTagName(node, tagName) {
+  let solution = [];
+  
+  function find(node, tagName) {
+    const nodeChildren = Array.from(node.children);
+    const name = tagName.toUpperCase();
+  
+    nodeChildren.forEach((child) => {
+      if (child.nodeName === name) {
+       solution.push(child);
+      }
+      if (child.children) {
+        return find(child, name);
+      }
+    })
+  }
+  find(node, tagName);
+  return solution;
+}
+
+console.log(byTagName(document.body, 'tr').length);
