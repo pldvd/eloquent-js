@@ -1,5 +1,7 @@
 'use strict'
 
+// build a table
+
 const MOUNTAINS = [
   {name: "Kilimanjaro", height: 5895, place: "Tanzania"},
   {name: "Everest", height: 8848, place: "Nepal"},
@@ -10,7 +12,17 @@ const MOUNTAINS = [
   {name: "Mont Blanc", height: 4808, place: "Italy/France"}
 ];
 
-function generateMoountains(mountains) {
+function styleNumberValues() {
+  const allRows = document.getElementsByTagName('tr');
+
+  for (let i = 0; i < allRows.length; i++) {
+    if ( i === 0) continue;
+    const numberValue = allRows[i].firstElementChild.nextElementSibling;
+    numberValue.style.textAlign = 'right';
+  }
+}
+
+function generateMountainTable(mountains) {
   const domParent = document.getElementById('mountains');
   const tableElement = document.createElement('table');
   const headerRow = document.createElement('tr');
@@ -25,8 +37,16 @@ function generateMoountains(mountains) {
   
   for (let mountain of mountains) {
     const table = document.getElementsByTagName('table');
-    const newRow = document
+    const newRow = document.createElement('tr');
+    
+    for (let mountainData in mountain) {
+      const newData = document.createElement('td');
+      newData.innerText = mountain[mountainData];
+      newRow.appendChild(newData);
+    }
+    table[0].appendChild(newRow);
   }
+  styleNumberValues();
 }
 
-generateMoountains();
+generateMountainTable(MOUNTAINS);
