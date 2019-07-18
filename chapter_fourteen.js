@@ -56,22 +56,23 @@ generateMountainTable(MOUNTAINS);
 
 function byTagName(node, tagName) {
   let solution = [];
+  const name = tagName.toUpperCase();
   
-  function find(node, tagName) {
+  function findIn(node) {
     const nodeChildren = Array.from(node.children);
-    const name = tagName.toUpperCase();
   
     nodeChildren.forEach((child) => {
       if (child.nodeName === name) {
        solution.push(child);
       }
       if (child.children) {
-        return find(child, name);
+        findIn(child, name);
       }
     })
   }
-  find(node, tagName);
+  findIn(node);
   return solution;
 }
 
 console.log(byTagName(document.body, 'tr').length);
+
