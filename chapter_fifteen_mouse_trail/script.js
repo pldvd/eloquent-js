@@ -1,22 +1,28 @@
-function createTrailingBits(e) {
+'use strict'
 
-  for (let i = 0; i < 5; i++) {
-    let trailingBit = document.createElement('div');
+const dots = [];
+let mouseX, mouseY;
+let currentDot = 0;
 
-    trailingBit.className = 'trail';
-    trailingBit.style.left = `${e.clientX+ (i * 10)}px`;
-    trailingBit.style.top = `${e.clientY + (i * 10)}px`
-    document.body.appendChild(trailingBit);
-  }
+for (let i = 0; i < 10; i++) {
+  let node = document.createElement('div');
+  node.className = 'trail';
+  document.body.appendChild(node);
+  dots.push(node);
 }
 
 function moveTrail(e) {
-  const trails = document.querySelectorAll('.trail');
-  trails.forEach((trail, i) => {
-    trail.style.top = `${e.clientY + (i * 10)}px`;
-    trail.style.left = `${e.clientX + (i * 10)}px`;
-  });
+  mouseX = e.clientX;
+  mouseY = e.clientY;
 }
 
-window.addEventListener('click', createTrailingBits);
+function moveDots() {
+  let dot = dots[currentDot];
+  dot.style.top = `${mouseY - 5}px`;
+  dot.style.left = `${mouseX - 5}px`;
+  currentDot = (currentDot + 1) % dots.length;
+  requestAnimationFrame(moveDots);
+}
+
 window.addEventListener('mousemove', moveTrail);
+requestAnimationFrame(moveDots);
