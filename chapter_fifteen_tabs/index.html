@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>Document</title>
+  <style>
+    .selected {
+      color: red;
+    }
+  </style>
+</head>
+<body>
+  <tab-panel>
+    <div data-tabname="one">Tab one</div>
+    <div data-tabname="two">Tab two</div>
+    <div data-tabname="three">Tab three</div>
+  </tab-panel>
+  <script>
+    
+    function asTabs(node) {
+      const children = Array.from(node.children);
+
+      function manageSelection(event) {
+        if (document.querySelector('.selected')) {
+          let oldSelected = document.querySelector('.selected');
+          oldSelected.className = '';
+        }
+        event.target.className = 'selected';
+
+        children.forEach(childNode => {
+          if (childNode.style.display === 'block') {
+            childNode.style.display = 'none';
+          }
+          if (childNode.getAttribute('data-tabname') === event.target.textContent ) {
+            childNode.style.display = 'block'
+          }
+        })
+      }
+
+      children.forEach(childNode => {
+        const button = document.createElement('button');
+        button.textContent = childNode.getAttribute('data-tabname');
+        button.addEventListener('click', manageSelection)
+        document.body.appendChild(button);
+        childNode.style.display = 'none';
+      })
+
+    }
+    asTabs(document.querySelector("tab-panel"));
+  </script>
+</body>
+</html>
