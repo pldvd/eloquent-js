@@ -15,12 +15,20 @@ function explode() {
   balloon.innerText = "💥";
 }
 
-window.addEventListener('keydown', (e) => {
-  console.log(e.key);
+function controlSize(e) {
   if (e.key == `ArrowUp`) {
     inflate();
   } else if (e.key = 'ArrowDown') {
     deflate();
+  }}
+
+window.addEventListener('keydown', controlSize);
+
+window.addEventListener('keydown', () => {
+  let currentSize = Number(balloon.style.fontSize.match(/\d+/g))
+  if (currentSize > 240) {
+    explode();
+    window.removeEventListener('keydown', controlSize);
   }
 })
 
