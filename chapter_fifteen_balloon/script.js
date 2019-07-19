@@ -1,35 +1,19 @@
 const balloon = document.querySelector('p');
 balloon.style.fontSize = '16px';
 
-function inflate() {
-  let currentSize = Number(balloon.style.fontSize.match(/\d+/g));
-  balloon.style.fontSize = `${currentSize + 5}px`;
-}
-
-function deflate() {
-  let currentSize = Number(balloon.style.fontSize.match(/\d+/g));
-  balloon.style.fontSize = `${currentSize - 5}px`;
-}
-
-function explode() {
-  balloon.innerText = "💥";
-}
-
 function controlSize(e) {
+  let size = Number(balloon.style.fontSize.match(/\d+/g));
+  
   if (e.key == `ArrowUp`) {
-    inflate();
+    balloon.style.fontSize = `${size + 5}px`
+
+    if (size > 340) {
+      balloon.innerText = "💥";
+      window.removeEventListener('keydown', controlSize);
+    }
   } else if (e.key = 'ArrowDown') {
-    deflate();
-  }}
+    balloon.style.fontSize = `${size - 5}px`;
+  }
+}
 
 window.addEventListener('keydown', controlSize);
-
-window.addEventListener('keydown', () => {
-  let currentSize = Number(balloon.style.fontSize.match(/\d+/g))
-  if (currentSize > 240) {
-    explode();
-    window.removeEventListener('keydown', controlSize);
-  }
-})
-
-
