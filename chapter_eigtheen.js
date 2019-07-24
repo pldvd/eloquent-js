@@ -3,29 +3,35 @@
 //content negotiation
 
 //fetch text/plain
-fetch('https://eloquentjavascript.net/author', {headers: {
-  'accept': 'text/plain'
-}})
-.then(response => response.text())
-.then(text => console.log(text));
+fetch('https://eloquentjavascript.net/author', {
+  headers: {
+    'accept': 'text/plain'
+  }
+})
+  .then(response => response.text())
+  .then(text => console.log(text));
 
 //fetch JSON
 
-fetch('https://eloquentjavascript.net/author', {headers: {
-  'accept': 'application/json'
-}})
+fetch('https://eloquentjavascript.net/author', {
+  headers: {
+    'accept': 'application/json'
+  }
+})
   .then(response => response.json())
   .then(json => console.log(json));
 
-  //fetch html
+//fetch html
 
-  fetch('https://eloquentjavascript.net/author', {headers: {
+fetch('https://eloquentjavascript.net/author', {
+  headers: {
     'accept': 'text/html'
-  }})
-    .then(response => response.text())
-    .then(text => console.log(text));
+  }
+})
+  .then(response => response.text())
+  .then(text => console.log(text));
 
-    //javascript workbench 
+//javascript workbench 
 
 const textArea = document.querySelector('textarea');
 const myButton = document.querySelector('button');
@@ -36,9 +42,8 @@ function runCode(inputString) {
     let result = Function('', inputString)();
     output.textContent = result;
     return result;
-  } catch (erorr) {
-    console.log(error.message);
-    return null;
+  } catch (error) {
+    output.textContent = error.message;
   }
 }
 myButton.addEventListener('click', () => runCode(textArea.value));
