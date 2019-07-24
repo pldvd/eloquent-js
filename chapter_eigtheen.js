@@ -39,7 +39,7 @@ const output = document.getElementById('output');
 
 function runCode(inputString) {
   try {
-    let result = Function(inputString)();
+    let result = new Function(inputString)();
     output.textContent = result;
     return result;
   } catch (error) {
