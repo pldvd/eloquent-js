@@ -24,3 +24,21 @@ fetch('https://eloquentjavascript.net/author', {headers: {
   }})
     .then(response => response.text())
     .then(text => console.log(text));
+
+    //javascript workbench 
+
+const textArea = document.querySelector('textarea');
+const myButton = document.querySelector('button');
+const output = document.getElementById('output');
+
+function runCode(inputString) {
+  try {
+    let result = Function('', inputString)();
+    output.textContent = result;
+    return result;
+  } catch (erorr) {
+    console.log(error.message);
+    return null;
+  }
+}
+myButton.addEventListener('click', () => runCode(textArea.value));
