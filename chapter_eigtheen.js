@@ -16,3 +16,11 @@ fetch('https://eloquentjavascript.net/author', {headers: {
 }})
   .then(response => response.json())
   .then(json => console.log(json));
+
+  //fetch html
+
+  fetch('https://eloquentjavascript.net/author', {headers: {
+    'accept': 'text/html'
+  }})
+    .then(response => response.text())
+    .then(text => console.log(text));
