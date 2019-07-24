@@ -9,3 +9,10 @@ fetch('https://eloquentjavascript.net/author', {headers: {
 .then(response => response.text())
 .then(text => console.log(text));
 
+//fetch JSON
+
+fetch('https://eloquentjavascript.net/author', {headers: {
+  'accept': 'application/json'
+}})
+  .then(response => response.json())
+  .then(json => console.log(json));
