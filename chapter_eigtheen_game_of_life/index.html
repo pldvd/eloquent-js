@@ -41,9 +41,37 @@
 
       checkNeighbours() {
         this.content.map((row, rowIndex) => {
-            row.map((cell, cellIndex) => {
-              
+          return row.map((cell, cellIndex) => {
+            let trueNeighbours = 0;
+            let falseNeighbours = 0;
+
+            const neighbourCells = [
+              [rowIndex - 1, cellIndex - 1],
+              [rowIndex - 1, cellIndex],
+              [rowIndex - 1, cellIndex + 1],
+              [rowIndex, cellIndex - 1],
+              [rowIndex, cellIndex + 1],
+              [rowIndex + 1, cellIndex - 1],
+              [rowIndex + 1, cellIndex],
+              [rowIndex + 1, cellIndex + 1]
+            ];
+
+            let filteredForMissing = neighbourCells.map(neighbour => {
+              if (neighbour[0] >= 0 && neighbour[1] >= 0 && neighbour[0] < this.content.length && neighbour[1] < row.length) {
+                return this.content[neighbour[0]][neighbour[1]];
+              } else {
+                return null;
+              }
             })
+
+            filteredForMissing.forEach(elem => {
+              if (elem) {
+                trueNeighbours += 1;
+              } else falseNeighbours += 1;
+            });
+
+            console.log(filteredForMissing, falseNeighbours, trueNeighbours);
+          })
         })
       }
     }
