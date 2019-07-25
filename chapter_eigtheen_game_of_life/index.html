@@ -1,17 +1,31 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta http-equiv="X-UA-Compatible" content="ie=edge">
   <title>Game of Life</title>
 </head>
-<body>
+
+<body style="box-sizing: border-box; height: 95vh; display:flex; align-items: center; justify-content: center">
+  <div>
     <div id="grid"></div>
-    <button id="next">Next generation</button>
-    
-    <script>
-      // Your code here.
-    </script>
+    <button id="next" style="margin-top: 10px">Next generation</button>
+  </div>
+  <script>
+    // Your code here.
+    for (let i = 0; i < 25; i++) {
+      let newRow = document.createElement('div');
+      newRow.className = 'row';
+      for (let y = 0; y < 25; y++) {
+        let newCell = document.createElement('input');
+        newCell.type = 'checkbox';
+        newRow.appendChild(newCell);
+      }
+      document.querySelector('#grid').appendChild(newRow);
+    }
+  </script>
 </body>
+
 </html>
