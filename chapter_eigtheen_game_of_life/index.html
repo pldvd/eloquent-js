@@ -14,8 +14,9 @@
     <button id="next" style="margin-top: 10px">Next generation</button>
   </div>
   <script>
-    // Your code here.
+
     'use strict'
+
     class Matrix {
       constructor(width, height, content) {
         this.width = width;
@@ -37,11 +38,18 @@
           })();
         }
       }
+
+      checkNeighbours() {
+        this.content.map((row, rowIndex) => {
+            row.map((cell, cellIndex) => {
+              
+            })
+        })
+      }
     }
 
     function drawGeneration(matrix) {
       const gridNode = document.getElementById('grid');
-      console.log(matrix.width, matrix.height);
 
       for (let i = 0; i < matrix.width; i++) {
         const newRow = document.createElement('div');
@@ -57,6 +65,7 @@
 
 
     let myMatrix = new Matrix(5, 5);
+    myMatrix.checkNeighbours();
     drawGeneration(myMatrix);
 
 
