@@ -15,17 +15,32 @@
   </div>
   <script>
     // Your code here.
-    for (let i = 0; i < 25; i++) {
-      let newRow = document.createElement('div');
-      newRow.className = 'row';
-      for (let y = 0; y < 25; y++) {
-        let newCell = document.createElement('input');
-        newCell.type = 'checkbox';
-        if (Math.random() > 0.5) newCell.checked = true;
-        newRow.appendChild(newCell);
+
+    class Matrix {
+      constructor(width, height, content) {
+        this.width = width;
+        this.height = height;
+        if (content) {
+          this.content = content;
+        } else {
+          this.content = (() => {
+            let matrix = [];
+            for (let i = 0; i < this.width; i++) {
+              let row = [];
+              for (let y = 0; y < this.height; y++) {
+                row.push(Math.random() > 0.5);
+              }
+              matrix.push(row);
+            }
+            return matrix;
+          })();
+        }
       }
-      document.querySelector('#grid').appendChild(newRow);
     }
+
+    let myMatrix = new Matrix(25, 25);
+    console.log(myMatrix.content);
+
   </script>
 </body>
 
