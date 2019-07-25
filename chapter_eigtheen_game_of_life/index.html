@@ -15,7 +15,7 @@
   </div>
   <script>
     // Your code here.
-
+    'use strict'
     class Matrix {
       constructor(width, height, content) {
         this.width = width;
@@ -28,6 +28,7 @@
             for (let i = 0; i < this.width; i++) {
               let row = [];
               for (let y = 0; y < this.height; y++) {
+                9
                 row.push(Math.random() > 0.5);
               }
               matrix.push(row);
@@ -38,8 +39,27 @@
       }
     }
 
-    let myMatrix = new Matrix(25, 25);
-    console.log(myMatrix.content);
+    function drawGeneration(matrix) {
+      const gridNode = document.getElementById('grid');
+      console.log(matrix.width, matrix.height);
+
+      for (let i = 0; i < matrix.width; i++) {
+        const newRow = document.createElement('div');
+        for (let y = 0; y < matrix.height; y++) {
+          const checkboxNode = document.createElement('input');
+          checkboxNode.type = 'checkbox';
+          checkboxNode.checked = matrix.content[i][y];
+          newRow.appendChild(checkboxNode);
+        }
+        gridNode.appendChild(newRow);
+      }
+    }
+
+
+    let myMatrix = new Matrix(5, 5);
+    drawGeneration(myMatrix);
+
+
 
   </script>
 </body>
