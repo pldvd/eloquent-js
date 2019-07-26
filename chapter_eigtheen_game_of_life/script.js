@@ -13,7 +13,7 @@ class Matrix {
           let row = [];
           for (let y = 0; y < this.height; y++) {
             let cell = {
-              position: [i, y],
+              position: [y, i],
               isAlive: Math.random() > 0.5
             }
             row.push(cell);
@@ -27,6 +27,7 @@ class Matrix {
 
   drawGeneration(matrix) {
     const gridNode = document.getElementById('grid');
+    gridNode.innerHTML = '';
 
     for (let i = 0; i < matrix.width; i++) {
       const newRow = document.createElement('div');
@@ -47,10 +48,11 @@ class Matrix {
         console.log(cellToChange);
         cellToChange.isAlive = !cellToChange.isAlive;
         console.log(cellToChange);
+        console.log(matrix.content[location[0]][location[1]])
       }
     })
   }
-  
+
   setContent(gridLocation, isAlive) {
     for (let row of this.content) {
       for (let cell of row) {
@@ -61,91 +63,69 @@ class Matrix {
     }
   }
 
-  //   checkNeighbours() {
-  //     this.content.map((row, rowIndex) => {
+  createNewGeneration(matrix) {
+    let newContent = [];
 
-  //       row.map((cell, cellIndex) => {
-  //         let aliveNeighbours = 0;
-  //         let deadNeighbours = 0;
-  //         let newRow = [];
+    matrix.content.map((row, rowIndex) => {
+      let newRow = [];
 
-  //         const neighbourCells = [
-  //           [rowIndex - 1, cellIndex - 1],
-  //           [rowIndex - 1, cellIndex],
-  //           [rowIndex - 1, cellIndex + 1],
-  //           [rowIndex, cellIndex - 1],
-  //           [rowIndex, cellIndex + 1],
-  //           [rowIndex + 1, cellIndex - 1],
-  //           [rowIndex + 1, cellIndex],
-  //           [rowIndex + 1, cellIndex + 1]
-  //         ];
+      row.map((cell, cellIndex) => {
+        let aliveNeighbours = 0;
 
-  //         let filteredForMissing = neighbourCells.map(neighbour => {
-  //           if (neighbour[0] >= 0 && neighbour[1] >= 0 && neighbour[0] < this.content.length && neighbour[1] < row.length) {
-  //             return this.content[neighbour[0]][neighbour[1]];
-  //           } else {
-  //             return null;
-  //           }
-  //         })
+        const neighbourCells = [
+          [rowIndex - 1, cellIndex - 1],
+          [rowIndex - 1, cellIndex],
+          [rowIndex - 1, cellIndex + 1],
+          [rowIndex, cellIndex - 1],
+          [rowIndex, cellIndex + 1],
+          [rowIndex + 1, cellIndex - 1],
+          [rowIndex + 1, cellIndex],
+          [rowIndex + 1, cellIndex + 1]
+        ];
 
-  //         filteredForMissing.forEach(elem => {
-  //           if (elem) {
-  //             aliveNeighbours += 1;
-  //           } else deadNeighbours += 1;
-  //         });
+        let filteredForMissing = neighbourCells.map(neighbour => {
+          if (neighbour[0] >= 0 && neighbour[1] >= 0 && neighbour[0] < this.content.length && neighbour[1] < row.length) {
+            return this.content[neighbour[0]][neighbour[1]];
+          } else {
+            return null;
+          }
+        })
 
-  //         // if (aliveNeighbours < 2 || aliveNeighbours > 3) {
-  //         //   newRow[cellIndex] = false;
-  //         //   // console.log('a');
-  //         // } else if (cell === true && 2 <= aliveNeighbours <= 3) {
-  //         //   // console.log('b');
-  //         //   newRow[cellIndex] = cell;
-  //         // } else if (cell === false && aliveNeighbours === 3) {
-  //         //   // console.log('c');
-  //         //   newRow[rowIndex] = true;
-  //         // } else {
-  //         //   newRow[rowIndex] = cell;
-  //         // }
+        cell.neighbours = filteredForMissing.filter(neighbour => neighbour != null);
 
-  //         console.log(filteredForMissing, deadNeighbours, aliveNeighbours);
-  //         console.log(cell);
-  //         // console.log(newRow);
-  //         // newMatrix.push(newRow);
+        cell.neighbours.forEach(neighbour => {
+          if (neighbour.isAlive) {
+            aliveNeighbours++;
+          }
+        })
 
+        // console.log(cell);
 
-  //       })
-  //     })
-  //   }
+        if (cell.isAlive && (aliveNeighbours < 2 || aliveNeighbours > 3)) {
+          cell.isAlive = false;
+        } else if (cell.isAlive && 2 <= aliveNeighbours <= 3) {
+          cell.isAlive = true;
+        } else if (!cell.isAlive && aliveNeighbours === 3) {
+          cell.isAlive = true;
+        } else {
+          cell.isAlive = cell.isAlive;
+        }
+
+        newRow.push(cell);
+      })
+
+      newContent.push(newRow);
+    })
+    // console.log(newContent);
+    // console.log('new matrix created');
+    return new Matrix(matrix.width, matrix.height, newContent);
+    // console.log(newContent);
+  }
 }
 
-  //   function drawGeneration(matrix) {
-  // const gridNode = document.getElementById('grid');
+let myMatrix = new Matrix(10, 10);
 
-  // for (let i = 0; i < matrix.width; i++) {
-  //   const newRow = document.createElement('div');
-  //   for (let y = 0; y < matrix.height; y++) {
-  //     const checkboxNode = document.createElement('input');
-  //     checkboxNode.type = 'checkbox';
-  //     checkboxNode.checked = matrix.content[i][y].isAlive;
-  //     checkboxNode.setAttribute('data-location', matrix.content[i][y].position)
-  //     newRow.appendChild(checkboxNode);
-  //   }
-  //   gridNode.appendChild(newRow);
-  // }
-
-  // gridNode.addEventListener('click', (e) => {
-  //   if (e.target.nodeName === 'INPUT') {
-  //     let location = e.target.getAttribute('data-location').split(',');
-  //     let cellToChange = matrix.content[location[0]][location[1]];
-  //     console.log(cellToChange);
-  //     cellToChange.isAlive = !cellToChange.isAlive;
-  //     console.log(cellToChange);
-  //   }
-  // })
-
-  //console.log(matrix.content);
-
-
-
-let myMatrix = new Matrix(5, 5);
-myMatrix.drawGeneration(myMatrix);
+document.querySelector('button').addEventListener('click', () => {
+  myMatrix.drawGeneration(myMatrix.createNewGeneration(myMatrix));
+})
+// myMatrix.createNewGeneration(myMatrix);
