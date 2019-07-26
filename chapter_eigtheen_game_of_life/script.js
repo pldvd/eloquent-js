@@ -31,13 +31,13 @@ class Matrix {
     const gridNode = document.getElementById('grid');
     gridNode.innerHTML = '';
 
-    for (let i = 0; i < matrix.width; i++) {
+    for (let i = 0; i < matrix.height; i++) {
       const newRow = document.createElement('div');
-      for (let y = 0; y < matrix.height; y++) {
+      for (let y = 0; y < matrix.width; y++) {
         const checkboxNode = document.createElement('input');
         checkboxNode.type = 'checkbox';
-        checkboxNode.checked = matrix.content[i][y].isAlive;
-        checkboxNode.setAttribute('data-location', matrix.content[i][y].position)
+        checkboxNode.checked = matrix.content[y][i].isAlive;
+        checkboxNode.setAttribute('data-location', matrix.content[y][i].position)
         newRow.appendChild(checkboxNode);
       }
       gridNode.appendChild(newRow);
@@ -47,9 +47,9 @@ class Matrix {
       if (e.target.nodeName === 'INPUT') {
         let location = e.target.getAttribute('data-location').split(',');
         let cellToChange = matrix.content[location[0]][location[1]];
+        console.log(cellToChange);
         cellToChange.isAlive = !cellToChange.isAlive;
-        myMatrix = matrix;
-        // console.log(cellToChange);
+        console.log(cellToChange);
         // console.log(matrix.content[location[0]][location[1]])
       }
     })
@@ -107,17 +107,15 @@ class Matrix {
       newContent.push(newRow);
     })
     return new Matrix(matrix.width, matrix.height, newContent);
-
   }
 }
 
 window.onload = () => {
-  let matrix = new Matrix(10, 10);
+  let matrix = new Matrix(30, 15);
+  matrix.drawGeneration(matrix);
   myMatrix = matrix;
-  myMatrix.drawGeneration(myMatrix);
 }
 
 document.querySelector('button').addEventListener('click', () => {
   myMatrix.drawGeneration(myMatrix.createNewGeneration(myMatrix));
 })
-
