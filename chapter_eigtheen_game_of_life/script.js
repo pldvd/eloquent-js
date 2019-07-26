@@ -17,7 +17,7 @@ class Matrix {
           for (let y = 0; y < this.height; y++) {
             let cell = {
               position: [y, i],
-              isAlive: Math.random() > 0.5
+              isAlive: Math.random() < 0.3
             }
             row.push(cell);
           }
@@ -34,8 +34,10 @@ class Matrix {
 
     for (let i = 0; i < matrix.height; i++) {
       const newRow = document.createElement('div');
+
       for (let y = 0; y < matrix.width; y++) {
         const checkboxNode = document.createElement('input');
+        
         checkboxNode.type = 'checkbox';
         checkboxNode.checked = matrix.content[y][i].isAlive;
         checkboxNode.setAttribute('data-location', matrix.content[y][i].position)
@@ -46,18 +48,18 @@ class Matrix {
 
     gridNode.addEventListener('click', (e) => {
       if (e.target.nodeName === 'INPUT') {
-        let location = e.target.getAttribute('data-location').split(',');
-        let cellToChange = matrix.content[location[0]][location[1]];
+        const location = e.target.getAttribute('data-location').split(',');
+        const cellToChange = matrix.content[location[0]][location[1]];
         cellToChange.isAlive = !cellToChange.isAlive;
       }
     })
   }
 
   createNewGeneration(matrix) {
-    let newContent = [];
+    const newContent = [];
 
     matrix.content.forEach((row, rowIndex) => {
-      let newRow = [];
+      const newRow = [];
 
       row.forEach((cell, cellIndex) => {
         let aliveNeighbours = 0;
@@ -73,7 +75,7 @@ class Matrix {
           [rowIndex + 1, cellIndex + 1]
         ];
 
-        let filteredForMissing = neighbourCells.map(neighbour => {
+        const filteredForMissing = neighbourCells.map(neighbour => {
           if (neighbour[0] >= 0 && neighbour[1] >= 0 && neighbour[0] < this.content.length && neighbour[1] < row.length) {
             return this.content[neighbour[0]][neighbour[1]];
           } else {
@@ -109,7 +111,7 @@ class Matrix {
 }
 
 window.onload = () => {
-  let matrix = new Matrix(30, 15);
+  const matrix = new Matrix(30, 15);
   matrix.drawGeneration(matrix);
   myMatrix = matrix;
 }
