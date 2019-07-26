@@ -125,5 +125,6 @@ document.querySelector('button#autorun').addEventListener('click', () => {
     }, 400);
   } else {
     clearInterval(running, 400);
+    running = null;
   }
 })
