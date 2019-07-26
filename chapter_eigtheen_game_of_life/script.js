@@ -1,5 +1,7 @@
 'use strict'
 
+let myMatrix;
+
 class Matrix {
   constructor(width, height, content) {
     this.width = width;
@@ -45,31 +47,21 @@ class Matrix {
       if (e.target.nodeName === 'INPUT') {
         let location = e.target.getAttribute('data-location').split(',');
         let cellToChange = matrix.content[location[0]][location[1]];
-        console.log(cellToChange);
         cellToChange.isAlive = !cellToChange.isAlive;
-        console.log(cellToChange);
-        console.log(matrix.content[location[0]][location[1]])
+        myMatrix = matrix;
+        // console.log(cellToChange);
+        // console.log(matrix.content[location[0]][location[1]])
       }
     })
-  }
-
-  setContent(gridLocation, isAlive) {
-    for (let row of this.content) {
-      for (let cell of row) {
-        if (cell.position === gridLocation) {
-          cell.isAlive = isAlive;
-        }
-      }
-    }
   }
 
   createNewGeneration(matrix) {
     let newContent = [];
 
-    matrix.content.map((row, rowIndex) => {
+    matrix.content.forEach((row, rowIndex) => {
       let newRow = [];
 
-      row.map((cell, cellIndex) => {
+      row.forEach((cell, cellIndex) => {
         let aliveNeighbours = 0;
 
         const neighbourCells = [
@@ -99,16 +91,14 @@ class Matrix {
           }
         })
 
-        // console.log(cell);
-
         if (cell.isAlive && (aliveNeighbours < 2 || aliveNeighbours > 3)) {
           cell.isAlive = false;
-        } else if (cell.isAlive && 2 <= aliveNeighbours <= 3) {
+        }
+        if (cell.isAlive && 2 <= aliveNeighbours <= 3) {
           cell.isAlive = true;
-        } else if (!cell.isAlive && aliveNeighbours === 3) {
+        }
+        if (!cell.isAlive && aliveNeighbours === 3) {
           cell.isAlive = true;
-        } else {
-          cell.isAlive = cell.isAlive;
         }
 
         newRow.push(cell);
@@ -116,16 +106,18 @@ class Matrix {
 
       newContent.push(newRow);
     })
-    // console.log(newContent);
-    // console.log('new matrix created');
     return new Matrix(matrix.width, matrix.height, newContent);
-    // console.log(newContent);
+
   }
 }
 
-let myMatrix = new Matrix(10, 10);
+window.onload = () => {
+  let matrix = new Matrix(10, 10);
+  myMatrix = matrix;
+  myMatrix.drawGeneration(myMatrix);
+}
 
 document.querySelector('button').addEventListener('click', () => {
   myMatrix.drawGeneration(myMatrix.createNewGeneration(myMatrix));
 })
-// myMatrix.createNewGeneration(myMatrix);
+
