@@ -1,6 +1,7 @@
 'use strict'
 
 let myMatrix;
+let running = null;
 
 class Matrix {
   constructor(width, height, content) {
@@ -47,10 +48,7 @@ class Matrix {
       if (e.target.nodeName === 'INPUT') {
         let location = e.target.getAttribute('data-location').split(',');
         let cellToChange = matrix.content[location[0]][location[1]];
-        console.log(cellToChange);
         cellToChange.isAlive = !cellToChange.isAlive;
-        console.log(cellToChange);
-        // console.log(matrix.content[location[0]][location[1]])
       }
     })
   }
@@ -116,6 +114,16 @@ window.onload = () => {
   myMatrix = matrix;
 }
 
-document.querySelector('button').addEventListener('click', () => {
+document.querySelector('button#next').addEventListener('click', () => {
   myMatrix.drawGeneration(myMatrix.createNewGeneration(myMatrix));
+})
+
+document.querySelector('button#autorun').addEventListener('click', () => {
+  if (!running) {
+    running = setInterval(() => {
+      myMatrix.drawGeneration(myMatrix.createNewGeneration(myMatrix))
+    }, 400);
+  } else {
+    clearInterval(running, 400);
+  }
 })
