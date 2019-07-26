@@ -25,6 +25,16 @@
         }
       }
 
+      setContent(gridLocation, isAlive) {
+        for (let row of this.content) {
+          for (let cell of row) {
+            if (cell.position === gridLocation) {
+              cell.isAlive = isAlive;
+            }
+          }
+        }
+      }
+
     //   checkNeighbours() {
     //     this.content.map((row, rowIndex) => {
 
@@ -91,6 +101,7 @@
           const checkboxNode = document.createElement('input');
           checkboxNode.type = 'checkbox';
           checkboxNode.checked = matrix.content[i][y].isAlive;
+          checkboxNode.setAttribute('data-location', matrix.content[i][y].position)
           newRow.appendChild(checkboxNode);
         }
         gridNode.appendChild(newRow);
