@@ -7,7 +7,7 @@ const fsPromises = require('fs').promises;
 const regexp = new RegExp(process.argv[2]);
 const filesToRead = process.argv.slice(3);
 
-filesToRead.map(async file => {
+filesToRead.forEach(async file => {
   try {
     const fileContent = await fsPromises.readFile(file, 'utf8');
     regexp.test(fileContent) && console.log(file);
