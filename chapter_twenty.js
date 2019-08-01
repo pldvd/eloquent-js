@@ -24,3 +24,23 @@ async function searchFileContent(file) {
 }
 
 filesToRead.forEach(file => searchFileContent(file));
+
+//directory creation
+
+const http = require('http');
+const methods = Object.create(null);
+
+http.createServer((request, response) => {
+  let handler = methods[request.method];
+  handler(request)
+    .catch(error => {
+      console.log(error.message);
+    })
+    .then(({ body, status = 200, type = "text/plain" }) => {
+      response.writeHead(status, { "Content-Type": type });
+      if (body && body.pipe) body.pipe(response);
+      else response.end(body);
+    });
+}).listen(8000, () => console.log('app listening on port 8000'));
+
+methods.MKCOL = 'your code';
