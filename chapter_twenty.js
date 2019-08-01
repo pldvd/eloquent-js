@@ -9,8 +9,8 @@ const filesToRead = process.argv.slice(3);
 
 async function searchFileContent(file) {
   try {
-    const fileStat = await fsPromises.stat(file);
-    if (fileStat.isDirectory()) {
+    const fileStats = await fsPromises.stat(file);
+    if (fileStats.isDirectory()) {
       const dirContent = await fsPromises.readdir(file);
       dirContent.forEach(dirFile => searchFileContent(path.resolve(file, dirFile)));
     } else {
