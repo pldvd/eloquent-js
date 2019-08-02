@@ -23,7 +23,7 @@ async function searchFileContent(file) {
   }
 }
 
-filesToRead.forEach(file => searchFileContent(file));
+//filesToRead.forEach(file => searchFileContent(file));
 
 //directory creation
 
@@ -31,10 +31,10 @@ const http = require('http');
 const methods = Object.create(null);
 
 http.createServer((request, response) => {
-  let handler = methods[request.method];
+  let handler = methods[request.method] || notAllowed;
   handler(request)
     .catch(error => {
-      console.log(error.message);
+      console.log('error.message');
     })
     .then(({ body, status = 200, type = "text/plain" }) => {
       response.writeHead(status, { "Content-Type": type });
@@ -43,4 +43,28 @@ http.createServer((request, response) => {
     });
 }).listen(8000, () => console.log('app listening on port 8000'));
 
-methods.MKCOL = 'your code';
+async function notAllowed(request) {
+  return {
+    status: 405,
+    body: `Method ${request.method} not allowed.`
+  }
+}
+
+methods.MKCOL = async function (name) {
+  let stats;
+  try {
+    stats = await fsPromises.stat(name)
+  } catch (err) {
+    if (err.code != 'ENOENT') throw err;
+    await fsPromises.mkdir(name);
+    return { status: 204 }
+  }
+  if (stats.isDirectory()) return { status: 204 };
+  else return { status: 400, body: 'Not a directory' };
+}
+
+methods.MKCOL('hello')
+  .then(mess => console.log(mess))
+  .catch(err => console.log(err));
+
+
