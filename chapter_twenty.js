@@ -50,7 +50,7 @@ async function notAllowed(request) {
   }
 }
 
-methods.POST = async function (request) {
+methods.MKCOL = async function (request) {
   const requestUrl = new URL(request.url, 'http://localhost:8000');
   const name = requestUrl.searchParams.get('name');
   let stats;
@@ -59,10 +59,15 @@ methods.POST = async function (request) {
   } catch (err) {
     if (err.code != 'ENOENT') throw err;
     await fsPromises.mkdir(name);
-    return { status: 204, body: 'dir created' }
+    return { status: 204 }
   }
-  if (stats.isDirectory()) return { status: 204, body: 'the directory already exists'};
-  else return { status: 400, body: 'file not a directory' };
+  if (stats.isDirectory()) return {
+    status: 204
+  };
+  else return {
+    status: 400,
+    body: 'file not a directory'
+  };
 }
 
 
