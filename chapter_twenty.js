@@ -34,12 +34,12 @@ http.createServer((request, response) => {
   let handler = methods[request.method] || notAllowed;
   handler(request)
     .catch(error => {
-      console.log('error.message');
+      console.log(error.message);
     })
     .then(({ body, status = 200, type = "text/plain" }) => {
       response.writeHead(status, { "Content-Type": type });
       if (body && body.pipe) body.pipe(response);
-      else response.end(body);
+      response.end(body);
     });
 }).listen(8000, () => console.log('app listening on port 8000'));
 
@@ -50,21 +50,20 @@ async function notAllowed(request) {
   }
 }
 
-methods.MKCOL = async function (name) {
+methods.POST = async function (request) {
+  const requestUrl = new URL(request.url, 'http://localhost:8000');
+  const name = requestUrl.searchParams.get('name');
   let stats;
   try {
     stats = await fsPromises.stat(name)
   } catch (err) {
     if (err.code != 'ENOENT') throw err;
     await fsPromises.mkdir(name);
-    return { status: 204 }
+    return { status: 204, body: 'dir created' }
   }
-  if (stats.isDirectory()) return { status: 204 };
-  else return { status: 400, body: 'Not a directory' };
+  if (stats.isDirectory()) return { status: 204, body: 'the directory already exists'};
+  else return { status: 400, body: 'file not a directory' };
 }
 
-methods.MKCOL('hello')
-  .then(mess => console.log(mess))
-  .catch(err => console.log(err));
 
 
