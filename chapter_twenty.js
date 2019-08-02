@@ -69,6 +69,3 @@ methods.MKCOL = async function (request) {
     body: 'file not a directory'
   };
 }
-
-
-
