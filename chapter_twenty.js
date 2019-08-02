@@ -23,7 +23,7 @@ async function searchFileContent(file) {
   }
 }
 
-//filesToRead.forEach(file => searchFileContent(file));
+filesToRead.forEach(file => searchFileContent(file));
 
 //directory creation
 
